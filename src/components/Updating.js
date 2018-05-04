@@ -1,8 +1,9 @@
 import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
 const Updating = () => (
     <View style={styles.activityIndicatorContainer}>
+        <Text>Is updating please wait ...</Text>
         <ActivityIndicator animating={true} />
     </View>
 )

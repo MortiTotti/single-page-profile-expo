@@ -1,8 +1,9 @@
 import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
 const Fetching = () => (
     <View style={styles.activityIndicatorContainer}>
+        <Text>Is loading please wait ...</Text>
         <ActivityIndicator animating={true} />
     </View>
 )

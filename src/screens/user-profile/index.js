@@ -25,12 +25,12 @@ class ProfileScreen extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = { userProfile: this.props.userProfile };
     }
 
     componentWillMount() {
-        this.props.fetchUserProfile(10).then((response) => {
+        let { userProfile } = this.props;
+        this.props.fetchUserProfile(userProfile).then((response) => {
             this.setState({ userProfile: response });
         }, (errorMessage) => {
             // TODO: log the error by logger
@@ -64,8 +64,6 @@ class ProfileScreen extends Component {
     render() {
         let { isFetching, isUpdating } = this.props;
         let { userProfile } = this.state;
-
-        console.log(isUpdating);
 
         if (isFetching)
             return <Fetching />

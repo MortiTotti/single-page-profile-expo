@@ -12,6 +12,7 @@ const initState = {
   isFetching: false,
   isUpdating: false,
   userData: {
+    id: 0,
     fullName: "",
     userName: "",
     website: "",

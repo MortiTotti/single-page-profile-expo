@@ -43,12 +43,18 @@ const _userProfileUpdated = userProfile => ({
     }
 });
 
-const fetchFakeApiCall = (userId) => new Promise(function (resolve, reject) {
+const fetchFakeApiCall = (stateUserProfile) => new Promise(function (resolve, reject) {
     const { userProfile, errorMessage } = FakeData;
+
+    // TODO: in real app we use local storage, it's just for demo now
+    let result = (stateUserProfile.id != 0) ? stateUserProfile : userProfile;
+
+    console.log(result);
+
     setTimeout(function() {
         resolve({
             ok: true,
-            data: userProfile
+            data: result
         });
         /*reject({
             ok: false,
@@ -71,10 +77,10 @@ const updateFakeApiCall = (userProfile) => new Promise(function (resolve, reject
     }, 1000);
 });
 
-export const fetchUserProfile = userId => (dispatch) => {
-    dispatch(_userProfileFetchRequested(userId));
+export const fetchUserProfile = (userProfile) => (dispatch) => {
+    dispatch(_userProfileFetchRequested(userProfile.id));
 
-    return fetchFakeApiCall(userId)
+    return fetchFakeApiCall(userProfile)
         .then(response => {
             if (!response.ok) {
                 dispatch(_userProfileFetchFailed(response.message));

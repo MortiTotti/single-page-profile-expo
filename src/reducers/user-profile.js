@@ -27,25 +27,36 @@ const userProfile = (state = initState, action) => {
   switch (action.type) {
     case USER_PROFILE_FETCH_REQUESTED: {
       return Object.assign({}, state, {
-        isFetching: action.payload.isFetching,
+        isFetching: true,
       });
     }
     case USER_PROFILE_FETCH_FAILED: {
       return Object.assign({}, state, {
-        isFetching: action.payload.isFetching,
+        isFetching: false,
         errorMessage: action.payload.message
       });
     }
     case USER_PROFILE_RECEIVED: {
       return Object.assign({}, state, {
-        isFetching: action.payload.isFetching,
+        isFetching: false,
         userData: action.payload.userProfile
+      });
+    }
+    case USER_PROFILE_UPDATE_REQUESTED: {
+      return Object.assign({}, state, {
+        isUpdating: true,
+        userProfile: {...action.payload.userProfile}
+      });
+    }
+    case USER_PROFILE_UPDATE_FAILED: {
+      return Object.assign({}, state, {
+        isUpdating: false,
       });
     }
     case USER_PROFILE_UPDATED: {
       return Object.assign({}, state, {
-        fullName: action.payload.fullName,
-        userName: action.payload.userName
+        isUpdating: false,
+        userData: {...action.payload.userProfile}
       });
     }
     default: return state;

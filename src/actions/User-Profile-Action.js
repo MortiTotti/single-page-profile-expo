@@ -4,7 +4,6 @@ import FakeData from "@Store/data.json";
 const _userProfileFetchRequested = userId => ({
     type: types.USER_PROFILE_FETCH_REQUESTED,
     payload: {
-        isFetching: true,
         userId
     }
 });
@@ -12,7 +11,6 @@ const _userProfileFetchRequested = userId => ({
 const _userProfileFetchFailed = message => ({
     type: types.USER_PROFILE_FETCH_FAILED,
     payload: {
-        isFetching: false,
         message
     }
 });
@@ -20,23 +18,20 @@ const _userProfileFetchFailed = message => ({
 const _userProfileReceived = userProfile => ({
     type: types.USER_PROFILE_RECEIVED,
     payload: {
-        isFetching: false,
         userProfile
     }
 });
 
-const _userProfileUpdateRequested = userId => ({
+const _userProfileUpdateRequested = userProfile => ({
     type: types.USER_PROFILE_UPDATE_REQUESTED,
     payload: {
-        isFetching: true,
-        userId
+        userProfile
     }
 });
 
 const _userProfileUpdateFailed = message => ({
     type: types.USER_PROFILE_UPDATE_FAILED,
     payload: {
-        isFetching: false,
         message
     }
 });
@@ -44,12 +39,11 @@ const _userProfileUpdateFailed = message => ({
 const _userProfileUpdated = userProfile => ({
     type: types.USER_PROFILE_UPDATED,
     payload: {
-        isFetching: false,
         userProfile
     }
 });
 
-const fetchFakeApiCall = () => new Promise(function (resolve, reject) {
+const fetchFakeApiCall = (userId) => new Promise(function (resolve, reject) {
     const { userProfile, errorMessage } = FakeData;
     setTimeout(function() {
         resolve({
@@ -60,27 +54,27 @@ const fetchFakeApiCall = () => new Promise(function (resolve, reject) {
             ok: false,
             message: errorMessage
         });*/
-    }, 2000);
+    }, 1000);
 });
 
-const updateFakeApiCall = () => new Promise(function (resolve, reject) {
+const updateFakeApiCall = (userProfile) => new Promise(function (resolve, reject) {
     const { errorMessage } = FakeData;
     setTimeout(function () {
         resolve({
             ok: true,
-            data: true
+            data: {...userProfile}
         });
         /*reject({
             ok: false,
             message: errorMessage
         });*/
-    }, 2000);
+    }, 1000);
 });
 
-const requestUserProfile = userId => (dispatch) => {
+export const fetchUserProfile = userId => (dispatch) => {
     dispatch(_userProfileFetchRequested(userId));
 
-    return fetchFakeApiCall()
+    return fetchFakeApiCall(userId)
         .then(response => {
             if (!response.ok) {
                 dispatch(_userProfileFetchFailed(response.message));
@@ -92,4 +86,17 @@ const requestUserProfile = userId => (dispatch) => {
         });
 };
 
-export default requestUserProfile;
+export const updateUserProfile = userProfile => (dispatch) => {
+    dispatch(_userProfileUpdateRequested(userProfile));
+
+    return updateFakeApiCall(userProfile)
+        .then(response => {
+            if (!response.ok) {
+                dispatch(_userProfileUpdateFailed(response.message));
+                return Promise.reject(userId);
+            }
+            let userProfile = response.data;
+            dispatch(_userProfileUpdated(userProfile));
+            return Promise.resolve(userProfile);
+        });
+};

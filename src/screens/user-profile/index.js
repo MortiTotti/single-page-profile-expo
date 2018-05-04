@@ -1,21 +1,57 @@
 import React, { Component } from 'react';
 import Profile from "./Profile";
-import Fetching from "./Fetching";
+import Fetching from "@Components/Fetching";
+import Updating from "@Components/Updating";
 import { connect } from 'react-redux';
-import requestUserProfile from '@Actions/User-Profile-Action';
+import { fetchUserProfile, updateUserProfile } from '@Actions/User-Profile-Action';
+import { Button } from 'react-native-elements';
+import screenStyle from "./style";
 
 class ProfileScreen extends Component {
 
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state
+
+        return {
+            title: 'Edit Profile',
+            headerRight: <Button
+                            title="Update"
+                            color="blue"
+                            fontWeight="bold"
+                            buttonStyle={screenStyle.actionButton} 
+                            onPress={() => params.updateProfile()} />
+        }
+    }
+
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.state = { userProfile: this.props.userProfile };
     }
 
     componentWillMount() {
-        this.props.requestUserProfile(10).then((response) => {
+        this.props.fetchUserProfile(10).then((response) => {
             this.setState({ userProfile: response });
         }, (errorMessage) => {
-            // log to error log
+            // TODO: log the error by logger
+        });
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ updateProfile: this.updateProfile })
+    }
+
+    updateProfile = () => {
+        let { isFetching, isUpdating } = this.props;
+        if (isFetching || isUpdating) return;
+
+        let { userProfile } = this.state;
+        this.props.updateUserProfile(userProfile).then((response) => {
+            let state = this.state;
+            state.userProfile = response;
+            this.setState(state);
+        }, (errorMessage) => {
+            // TODO: log the error by logger
         });
     }
 
@@ -26,19 +62,20 @@ class ProfileScreen extends Component {
     }
 
     render() {
-        let { isFetching } = this.props;
+        let { isFetching, isUpdating } = this.props;
         let { userProfile } = this.state;
+
+        console.log(isUpdating);
 
         if (isFetching)
             return <Fetching />
         else
-            return <Profile userProfile={userProfile} onValueChange={this.onValueChange} />
+            if (isUpdating)
+                return <Updating />
+            else
+                return <Profile userProfile={userProfile} onValueChange={this.onValueChange} />
     }
 }
-
-ProfileScreen.navigationOptions = () => ({
-    title: 'Edit Profile'
-});
 
 const mapStateToProps = state => ({
     userProfile: state.userProfile.userData,
@@ -47,4 +84,4 @@ const mapStateToProps = state => ({
     isUpdating: state.userProfile.isUpdating
 })
 
-export default connect(mapStateToProps, { requestUserProfile })(ProfileScreen);
+export default connect(mapStateToProps, { fetchUserProfile, updateUserProfile })(ProfileScreen);

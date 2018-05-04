@@ -1,11 +1,11 @@
 import React from 'react';
-import HomeTabNavigator from "@Navigations/home/Tab-Navigator";
+import AppNavigator from "@Navigations/App-Navigator";
 import { StyleSheet, View, Text } from 'react-native';
 
 export default class Home extends React.Component {
   render() {
     return (
-      <HomeTabNavigator />
+      <AppNavigator />
     );
   }
 }

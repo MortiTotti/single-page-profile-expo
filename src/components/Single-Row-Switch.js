@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Switch, View, } from 'react-native';
 import Separator from "./Separator";
 
-class UserInfoItemToggle extends Component {
+class SingleRowSwitch extends Component {
     render() {
         let { id, caption, value, onValueChange } = this.props;
         return (
@@ -51,4 +51,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default UserInfoItemToggle;
+export default SingleRowSwitch;

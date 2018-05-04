@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import Separator from "./Separator";
+import Separator from "@Components/Separator";
 
-const UserInfoItemTextInput = ({ id, caption, placeholder, value, onValueChange }) => (
+const SingleRowTextInput = ({ id, caption, placeholder, value, onValueChange }) => (
     <View style={styles.container}>
         <View style={styles.view}>
             <Text style={styles.caption}>{caption}</Text>
@@ -51,4 +51,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default UserInfoItemTextInput;
+export default SingleRowTextInput;

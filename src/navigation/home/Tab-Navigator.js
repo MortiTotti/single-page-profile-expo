@@ -2,13 +2,13 @@ import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import { Platform, StatusBar } from 'react-native';
 import AboutScreen from "@Screens/about";
-import DashboardStackNavigation from "@Navigations/home/Dashboard-Stack-Navigation";
+import DashboardScreen from "@Screens/dashboard";
 import HomeIcon from "@Assets/icons/home-tab-navigation/Home-Icon";
 
 const HomeTabNavigator = TabNavigator(
     {
       dashboard: {
-        screen: DashboardStackNavigation,
+        screen: DashboardScreen,
         navigationOptions: {
           tabBarLabel: 'Dashboard',
           tabBarIcon: HomeIcon

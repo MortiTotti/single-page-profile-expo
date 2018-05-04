@@ -4,7 +4,7 @@ import screenStyle from "./style";
 
 class AboutScreen extends Component {
     static navigationOptions = {
-        title: 'Welcome',
+        header: null,
     };
 
     render() {

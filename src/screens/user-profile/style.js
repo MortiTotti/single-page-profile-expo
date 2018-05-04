@@ -14,6 +14,12 @@ const screenStyle = StyleSheet.create({
     },
     scroll: {
         backgroundColor: '#FFF',
+    },
+    actionButton: {
+        backgroundColor: 'transparent',
+        borderColor: "transparent",
+        borderWidth: 0,
+        borderRadius: 10
     }
 });
 

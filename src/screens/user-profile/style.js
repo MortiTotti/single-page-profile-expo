@@ -14,7 +14,7 @@ const screenStyle = StyleSheet.create({
     },
     scroll: {
         backgroundColor: '#FFF',
-    },
+    }
 });
 
 export default screenStyle;
